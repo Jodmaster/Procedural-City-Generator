@@ -13,6 +13,7 @@ public class CityGeneratorController : MonoBehaviour
     public float[,] terrainVals;
 
     //road attributes
+    [Header ("Road Parameters")]
     public RoadGraph roadGraph;
     RoadGenerator roadGenerator;
     public int maxRoads;
@@ -26,12 +27,14 @@ public class CityGeneratorController : MonoBehaviour
 
     //building attributes
     BuildingGen buildingGenerator;
+    [Header ("Building Parameters")]
     public float heightVariation;
     public Material buildingMat;
     public AnimationCurve buildingHeightCurve;
     public AnimationCurve buildingDepthCurve;
 
     //terrain attributes
+    [Header ("Terrain Parameters")]
     public float noiseScale;
     [Range(1, 10)]
     public int octaves;
@@ -126,7 +129,7 @@ public class CityGeneratorController : MonoBehaviour
         popDisplay.DrawTexture(textureGenerator.TextureFromHeightMap(popVals));
     }
 
-    //is called on execution validates that attributes are within values required for generation to occuer
+    //is called on execution validates that attributes are within values required for generation to occur
     public void OnValidate() {
         if(mapWidth <= 0) { mapWidth = 1; }
         if(mapHeight <= 0) { mapHeight = 1; }

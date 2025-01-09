@@ -30,7 +30,7 @@ public class terrainNoise
             float offsetX = offs.Next(-10000, 10000) + offset.x;
             float offsetY = offs.Next(-10000, 10000) + offset.y;
 
-            //we offset the octaves to avoid repeation of perlin points which can lead to very spiky terrain
+            //we offset the octaves to avoid repetition of perlin points which can lead to very spiky terrain
             octaveOffsets[i] = new Vector2(offsetX, offsetY);
         }
 
@@ -51,8 +51,8 @@ public class terrainNoise
                 float amplitude = 1;
                 float frequency = 1;
                 float noiseHeight = 0;
-                float ridgedHeight = 0;                
-                
+                float ridgeHeight = 0;
+
                 //different octaves are used for finer details in the terrain essentially layering the noise with varying amplitudes and frequencies
                 for(int i = 0; i < octaves; i++) {
                     
@@ -62,10 +62,10 @@ public class terrainNoise
 
                     //the noiseheight value is calculated for the given octave
                     float perlinValue = Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1;
-                    float ridgidValue = 2 * (0.5f - Mathf.Abs(0.5f - (Mathf.PerlinNoise(sampleX, sampleY) * 2 - 1))); 
-                    
+                    float ridgeValue = 2 * (0.5f - Mathf.Abs(0.5f - perlinValue));
+
                     noiseHeight += perlinValue * amplitude;
-                    ridgedHeight += ridgidValue * amplitude;
+                    ridgeHeight += ridgeValue * amplitude;
 
                     //frequency will increase with each loop providing the finer details
                     //amplitude will decrease with each loop (provided between 0 - 1) meaining later layers have less of an impact on noise height
@@ -74,20 +74,11 @@ public class terrainNoise
                 }
 
                 //update max or min depending on if noiseheight value is larger or smaller 
-                if(noiseHeight > maxNoiseHeight) {
-                    maxNoiseHeight = noiseHeight;
-                } else if(noiseHeight < minNoiseHeight) {
-                    minNoiseHeight = noiseHeight;
-                }
-
-                if(ridgedHeight > maxRidgeHeight) {
-                    maxRidgeHeight = ridgedHeight;
-                } else if(ridgedHeight < minRidgeHeight) {
-                    minRidgeHeight = ridgedHeight;
-                }
+                if(noiseHeight > maxNoiseHeight) { maxNoiseHeight = noiseHeight; } else if (noiseHeight < minNoiseHeight) { minNoiseHeight = noiseHeight; }
+                if(ridgeHeight > maxRidgeHeight) { maxRidgeHeight = ridgeHeight; } else if (ridgeHeight < minRidgeHeight) { minRidgeHeight = ridgeHeight;}
 
                 noiseMap[widthCount, heightCount] = noiseHeight;
-                ridgeMap[widthCount, heightCount] = ridgedHeight; 
+                ridgeMap[widthCount, heightCount] = ridgeHeight; 
             }
         }
        
@@ -103,9 +94,14 @@ public class terrainNoise
         minNoiseHeight = float.MaxValue;
 
         for(int heightLimit = 0; heightLimit < mapHeight; heightLimit++) {
-            for(int widthLimit = 0; widthLimit < mapWidth; widthLimit++) {                
+            for(int widthLimit = 0; widthLimit < mapWidth; widthLimit++) {
 
-                float finalHeight = ((1 - ridgeBlendFactor) * noiseMap[widthLimit, heightLimit]) + (ridgeBlendFactor * ridgeMap[widthLimit, heightLimit]);
+                //float finalHeight = ((1f - ridgeBlendFactor) * noiseMap[widthLimit, heightLimit]) * (ridgeBlendFactor * ridgeMap[widthLimit, heightLimit]);
+
+                float noiseValue = (1f - ridgeBlendFactor) * noiseMap[widthLimit, heightLimit];
+                float ridgeValue = ridgeBlendFactor * ridgeMap[widthLimit, heightLimit];
+
+                float finalHeight = noiseValue + ridgeValue;
 
                 if(finalHeight > maxNoiseHeight) {
                     maxNoiseHeight = finalHeight;
