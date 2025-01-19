@@ -101,8 +101,8 @@ public class Generator_UI_Controller : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update() {
-        print(IsPointerOverUIElement() ? "Over UI" : "Not over UI");
+    void Update() {        
+        if(IsPointerOverUIElement()) { lockCamera(); } else { unlockCamera(); }
     }
 
 
