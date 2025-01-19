@@ -9,16 +9,18 @@ Included in this repository is the write up created alongside the generator whic
 
 ===============================
 
+This repository contains builds for those interested in trying the generator without needing to install unity, please note that as of 15/12/2024 the build does not provide the full functionality of the generator as found in the unity editor as this is in active development.
+
+This Project was created in Unity version 2022.3.14f1 
+
 Installation : 
 
-This folder contains all the unity files needed for use
-
 - Extract the contents of this folder 
-- Open the unity hub 
-- click the arrow next to the open button
-- select add project from disk, and navigate to the unzipped folder 
+- Open the Unity Hub 
+- Select Add > Add project from disk
+- navigate to the unzipped folder 
 - select the folder and click add in the bottom left
 - the project can now be opened through the unity hub
 
-- Once the project is opened navigate to the scenes folder and open the demo scene
-- select the citygenerator object in the heirarchy, parameters should appear on the right of the screen in the inspector
+- Once the project is opened navigate to the scenes folder and open the S_Generator scene
+- select the City_Generator object in the heirarchy, parameters should appear on the right of the screen in the inspector.
