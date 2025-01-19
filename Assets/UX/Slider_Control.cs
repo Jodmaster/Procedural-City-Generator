@@ -17,6 +17,7 @@ public class Slider_Control : MonoBehaviour
         slider.onValueChanged.AddListener(displayText);
     }
 
+    //trims slider values to fit properly on UI
     void displayText(float arg) {
         if(slider.value % 1 == 0) {
             sliderValue.text = slider.value.ToString();

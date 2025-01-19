@@ -1,9 +1,12 @@
-using UnityEditor;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 //this class handles all UI requirements of the cityGeneratorController class
 [CustomEditor(typeof(CityGeneratorController))]
 public class CityGeneratorEditor : Editor {
+    #if UNITY_EDITOR
     public override void OnInspectorGUI() {
         CityGeneratorController cityController = (CityGeneratorController)target;
         cityController.initializeVisualisation();       
@@ -74,4 +77,6 @@ public class CityGeneratorEditor : Editor {
         }
 
     }
+    #endif
+
 }

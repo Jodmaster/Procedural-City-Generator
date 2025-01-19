@@ -1,9 +1,12 @@
-using UnityEditor;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 //The UI controls for population centers and map generation
 [CustomEditor(typeof(populationGenerator))]
 public class populationGeneratorEditor : Editor {
+    #if UNITY_EDITOR
 
     public override void OnInspectorGUI() {
         populationGenerator popGen = (populationGenerator)target;
@@ -22,4 +25,6 @@ public class populationGeneratorEditor : Editor {
 
        
     }
+
+    #endif
 }
