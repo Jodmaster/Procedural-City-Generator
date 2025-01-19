@@ -1,7 +1,11 @@
 Procedural Generation of Cities 
 ===============================
 
-This project generates cities procedurally based on user supplied parameters, it allows for the generation of terrain, road systems and buildings all with an emphasis on the user control over these generations.
+This project generates cities procedurally based on user supplied parameters, it allows for the generation of terrain, road systems and buildings all with a focus on the user control over these generations. 
+
+This project is a continuation of my dissertation and the aim of current development is to provide UI for generation and optimization and extension of features (buildings in particular).
+
+Included in this repository is the write up created alongside the generator which details development and stratagies used. It also includes references to other related works 
 
 ===============================
 
