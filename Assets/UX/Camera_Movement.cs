@@ -9,7 +9,11 @@ public class Camera_Movement : MonoBehaviour {
 
     Camera cam;
     public Transform target;
+    public GameObject targetUI;
     Generator_UI_Controller controller;
+
+    public float minimumDistance;
+    public float maximumDistance;
 
     public float rotationSpeed;
     public float zoomSpeed;
@@ -20,6 +24,7 @@ public class Camera_Movement : MonoBehaviour {
     void Start() {
         cam = GetComponentInChildren<Camera>();  
         controller = GameObject.FindObjectOfType<Generator_UI_Controller>();
+        targetUI = GameObject.CreatePrimitive(PrimitiveType.Sphere);
     }
 
     // Update is called once per frame
@@ -32,17 +37,33 @@ public class Camera_Movement : MonoBehaviour {
         }
 
         moveCameraTarget();
+        drawTargetPoint();
     }
 
     private void CameraZoom() {
 
         float step = zoomSpeed * Time.deltaTime;
+        Vector3 directionToTarget = target.position - transform.position;
+        float distanceToTarget = directionToTarget.magnitude;
 
         if(Input.mouseScrollDelta.y > 0) {
-            cam.transform.position = Vector3.MoveTowards(cam.transform.position, target.position, step);
+            if(distanceToTarget > minimumDistance) {
+                transform.position = Vector3.MoveTowards(transform.position, target.position, step);
+            }          
         } else if(Input.mouseScrollDelta.y < 0) {
-            cam.transform.position = Vector3.MoveTowards(cam.transform.position, target.position, -1f * step);
+                transform.position = Vector3.MoveTowards(transform.position, target.position, -1f * step);
         }
+
+        distanceToTarget = Vector3.Distance(transform.position, target.position);
+        
+        if(distanceToTarget < minimumDistance) {
+            transform.position = target.position - directionToTarget.normalized * minimumDistance;
+        }
+        
+        if(distanceToTarget > maximumDistance) {
+            transform.position = target.position - directionToTarget.normalized * maximumDistance;
+        }
+        
     }
 
     private void cameraRotate() {
@@ -98,4 +119,9 @@ public class Camera_Movement : MonoBehaviour {
         target.position = new Vector3(targetPosition.x, 0f, targetPosition.z);
         transform.position += currentOffset;
     }
+
+    private void drawTargetPoint() {
+       targetUI.transform.position = target.position;
+    }
+
 }
